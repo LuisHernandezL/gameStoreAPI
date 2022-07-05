@@ -10,11 +10,11 @@ const Reviews = db.define('reviews', {
     allowNull: false,
   },
   userId: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
   gameId: {
-    type: DataTypes.STRING,
+    type: DataTypes.INTEGER,
     allowNull: false,
   },
   comment: {

@@ -12,10 +12,12 @@ const { globalErrorHandler } = require('./controllers/error.controller');
 
 const { AppError } = require('./utils/appError.util');
 
+//Users Endpoint
 app.use('/api/v1/users', usersRouter);
+//Games Endpoint
 app.use('/api/v1/games', gamesRouter);
-/* 
-app.use('/api/v1/consoles') */
+//Consoles Endpoint
+app.use('/api/v1/consoles');
 
 app.all('*', (req, res, next) => {
   next(
