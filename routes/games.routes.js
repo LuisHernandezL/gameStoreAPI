@@ -29,4 +29,8 @@ gamesRouter
   .patch(updateGame)
   .delete(deleteGame);
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> d0782867311421f51bacc6f0066a9b80ecda192d
 module.exports = { gamesRouter };

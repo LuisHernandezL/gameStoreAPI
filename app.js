@@ -16,8 +16,12 @@ const { AppError } = require('./utils/appError.util');
 app.use('/api/v1/users', usersRouter);
 //Games Endpoint
 app.use('/api/v1/games', gamesRouter);
+<<<<<<< HEAD
 //Consoles Endpoint
 app.use('/api/v1/consoles');
+=======
+app.use('/api/v1/consoles', consolesRouter)
+>>>>>>> d0782867311421f51bacc6f0066a9b80ecda192d
 
 app.all('*', (req, res, next) => {
   next(

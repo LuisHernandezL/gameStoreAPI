@@ -19,7 +19,10 @@ const createGame = catchAsync(async (req, res, next) => {
 
 //falta relacionarlo con las demas tablas
 const getAllGames = catchAsync(async (req, res, next) => {
-  const data = await Games.findAll();
+  const data = await Games.findAll({
+    attributes: ['title', 'genre', 'status'],
+    include: [{model: Reviews, attributes: ['id', 'comment']}]
+  });
 
   res.status(200).json({
     status: 'success',

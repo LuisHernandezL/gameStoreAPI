@@ -10,6 +10,7 @@ const { Users } = require('../models/users.model');
 //utils
 const { catchAsync } = require('../utils/catchAsync.util');
 const { AppError } = require('../utils/appError.util');
+const { Reviews } = require('../models/reviews.model');
 
 const createUser = catchAsync(async (req, res, next) => {
   const { username, email, password } = req.body;
@@ -80,6 +81,7 @@ const getAllUsers = async (req, res, next) => {
   const users = await Users.findAll({
     attributes: ['id', 'name', 'email', 'status'],
     where: { status: 'active' },
+    include: [{model: Reviews, attributes: ['id', 'comment']}]
   });
 
   res.status(200).json({
