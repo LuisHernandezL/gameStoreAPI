@@ -19,7 +19,10 @@ const createGame = catchAsync(async (req, res, next) => {
 
 //falta relacionarlo con las demas tablas
 const getAllGames = catchAsync(async (req, res, next) => {
-  const data = await Games.findAll();
+  const data = await Games.findAll({
+    attributes: ['title', 'genre', 'status'],
+    include: [{model: Reviews, attributes: ['id', 'comment']}]
+  });
 
   res.status(200).json({
     status: 'success',
@@ -51,19 +54,12 @@ const deleteGame = catchAsync(async (req, res, next) => {
 });
 
 const reviewGame = catchAsync(async (req, res, next) => {
-  const { gameId } = req.params;
   const { comment } = req.body;
-  const { sessionUser } = req;
-
-  const game = await Games.findOne({ where: { id: gameId } });
-
-  if (!game) {
-    return next(new AppError('Game not found', 404));
-  }
+  const { sessionUser, game } = req;
 
   const newReview = await Reviews.create({
     userId: sessionUser.id,
-    gameId: gameId,
+    gameId: game.id,
     comment,
   });
 

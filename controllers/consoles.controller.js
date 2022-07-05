@@ -1,5 +1,7 @@
 //model
-const { Consoles } =require('../models/consoles.model')
+const { Consoles } = require('../models/consoles.model')
+const { Games } = require('../models/games.model')
+const { GameInConsole } = require('../models/gamesInConsoles.model')
 
 //utils
 const { AppError } = require('../utils/appError.util')
@@ -21,7 +23,9 @@ const createConsole = catchAsync(async (req, res, next) => {
 
 const getAllConsoles = catchAsync(async(req, res, next) => {
     const data = await Consoles.findAll({
-        attributes: ['id', 'name', 'company', 'status']
+        attributes: ['id', 'name', 'company', 'status'],
+        include: [{model: Games, attributes: ['title', 'genre', 'status']}],
+        where: {status: 'active'}
     }
     );
 
@@ -33,12 +37,34 @@ const getAllConsoles = catchAsync(async(req, res, next) => {
 })
 
 const updateNameConsoles = catchAsync(async(req, res, next) => {
-    
+    const { name } = req.body
+    const { console } = req
+
+    await console.update({name})
+
+    res.status(204).json({})
 })
 
 const deleteConsoles = catchAsync(async(req, res, next) => {
-    
+    const { console } = req
+
+    await console.update({status: 'delete'})
+
+    res.status(204).json({})
+})
+
+const assignGameToConsole = catchAsync(async(req, res, next) => {
+    const { gameId, consoleId } = req.body
+    const newAssign = await GameInConsole.create({
+        gameId,
+        consoleId
+    })
+
+    res.status(200).json({
+        status: 'success',
+        newAssign
+    })
 })
 
 
-module.exports = { createConsole, getAllConsoles, updateNameConsoles, deleteConsoles }
+module.exports = { createConsole, getAllConsoles, updateNameConsoles, deleteConsoles, assignGameToConsole }

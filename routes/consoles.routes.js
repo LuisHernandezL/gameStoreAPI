@@ -4,7 +4,8 @@ const express = require('express');
 const { createConsole, 
     getAllConsoles, 
     updateNameConsoles, 
-    deleteConsoles } = require('../controllers/consoles.controller')
+    deleteConsoles,
+    assignGameToConsole } = require('../controllers/consoles.controller')
 
 //middlewares
 const { consoleExist } = require('../middleware/consoleExist.middleware');
@@ -20,14 +21,13 @@ consolesRouter.use(protectSession)
 
 consolesRouter.post('/', createConsole);
 
+consolesRouter.post('/assign-console', assignGameToConsole)
+
 consolesRouter
 .use('/:id', consoleExist)
 .route('/:id')
 .patch(updateNameConsoles)
 .delete(deleteConsoles)
 
-consolesRouter.patch('/:id');
-
-consolesRouter.delete('/:id');
 
 module.exports = { consolesRouter };
