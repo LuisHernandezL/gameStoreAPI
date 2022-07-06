@@ -13,10 +13,11 @@ const {
   protectSession,
   verifyUserAccount,
 } = require('../middleware/auth.middleware');
+const { createUserValidators } = require('../middleware/validators.middleware');
 
 const usersRouter = express.Router();
 
-usersRouter.post('/signup', createUser);
+usersRouter.post('/signup', createUserValidators, createUser);
 
 usersRouter.post('/login', login);
 
